@@ -9,6 +9,7 @@ public class Systems {
 	Processor procesorArray[];
 	ArrayList<Task> taskArray;
 	Random random;
+	int time;
 	int verge;//prog - p
 	int chanceTime;
 	int minVerge;//min prog - r
@@ -29,17 +30,17 @@ public class Systems {
 	public ArrayList<Task> createArrayTask(){
 		ArrayList<Task>	 array = new ArrayList<Task>();
 		for(int i = 0; i < numberOfTask;i++){
-			array.add(taskArray.get(i));
+			array.add(new Task());
 		}
 		taskArray = array;
-		return taskArray;
+		return array;
 	}
 	
 	public void addToQueue() {
 		while (taskArray.iterator().hasNext()) {
 			Task task = taskArray.iterator().next();
 			if (task.comeTime <= time) {
-				queue.offer(proc);
+				queue.offer(task);
 				taskArray.iterator().remove();
 			}
 		}
