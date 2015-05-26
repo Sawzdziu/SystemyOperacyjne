@@ -11,5 +11,6 @@ public class Test {
         System.out.println(system.taskArray.toString());
         //system.first();
         System.out.println("Jajo");
+        System.out.print("Zmiana");
     }
 }
