@@ -4,6 +4,8 @@ public class Processor {
 
     int power = 0;
     ArrayList<Task> arrayTask = new ArrayList<Task>();
+    ArrayList<Integer>  workLoad = new ArrayList<>();
+
 
 
     public int getPower() {
@@ -29,6 +31,7 @@ public class Processor {
 
     public void addPower(int power) {
         this.power += power;
+        workLoad.add(power);
     }
 
 
