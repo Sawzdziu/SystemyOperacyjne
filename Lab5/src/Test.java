@@ -1,12 +1,9 @@
-import java.util.ArrayList;
-
-
 public class Test {
 
 
     public static void main(String[] args) {
 
-        Systems system = new Systems(40, 10, 4, 5);
+        Systems system = new Systems(40, 10, 4, 100);
         system.createArrayTask();
         system.createProcess();
 
@@ -14,7 +11,7 @@ public class Test {
         //system.first();
         FirstAlgorithm first = new FirstAlgorithm(system);
         first.run();
-        System.out.println(first.time);
+        System.out.println(first.askNumber);
 
     }
 }

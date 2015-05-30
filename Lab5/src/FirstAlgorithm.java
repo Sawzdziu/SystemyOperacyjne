@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Random;
@@ -8,6 +9,8 @@ import java.util.Random;
 public class FirstAlgorithm {
 
     int counter;
+    int deletecounter;
+    int askNumber;
     int time;
     int procesorNumber;
     Systems systems;
@@ -16,39 +19,53 @@ public class FirstAlgorithm {
     Task active;
     TimeComparator comparator = new TimeComparator();
     PriorityQueue<Task> queue = new PriorityQueue<Task>(comparator);
+    ArrayList<Task> task;
+    ArrayList<Task> undoneTaskArray = new ArrayList<Task>();
 
     public FirstAlgorithm(Systems systems) {
         this.systems = systems;
         this.procesorNumber = systems.procesorArray.length - 1;
+        this.task = systems.taskArray;
     }
 
-    public int run() {
+    public void run() {
         int find = 0;
-        while (!systems.taskArray.isEmpty() || !queue.isEmpty()) {
+        System.out.println(task.toString());
+        while (!task.isEmpty() || !queue.isEmpty()) { // dodawanie do procesorow zadan
             addToQueue();
-            active = queue.peek();
+            increaseEndTimeInQueue();
+            active = queue.poll();
+            System.out.println(active);
             if (active != null) {
                 if (counter < systems.chanceTime) {
                     find = random.nextInt(procesorNumber);
                     current = systems.procesorArray[find];
                     if (current.getPower() < systems.verge) {
-                        current.subPower(active.workLoad);
+                        current.addPower(active.workLoad);
                         current.arrayTask.add(active);
+                        undoneTaskArray.add(active);
+                        counter = 0;
                     } else {
-                        queue.add(active);//od³ó¿ na kolejke i poczekaj
+                        queue.add(active);//odloz na kolejke i poczekaj
+                        counter++;
                     }
-                    time++;
+                    askNumber++;
+                } else {
+                    counter = 0;
+                    current.addPower(active.workLoad);
+                    current.arrayTask.add(active);
+                    undoneTaskArray.add(active);
                 }
-            } else {
-                time++;
             }
             check();
+            time++;
         }
-        return time;
+        time--;
+        endTask();
     }
 
     public void addToQueue() {
-        Iterator<Task> iter = systems.taskArray.iterator();
+        Iterator<Task> iter = task.iterator();
         while (iter.hasNext()) {
             Task task = iter.next();
             if (task.comeTime <= time) {
@@ -58,15 +75,27 @@ public class FirstAlgorithm {
         }
     }
 
+    public void increaseEndTimeInQueue() {
+        Iterator<Task> iterator = queue.iterator();
+        while (iterator.hasNext()) {
+            Task task = iterator.next();
+            task.addTime();
+        }
+    }
+
+
     public void check() {
-        Processor active;
         for (int i = 0; i < systems.procesorArray.length; i++) {
-            active = systems.procesorArray[i];
+            Processor active = systems.procesorArray[i];
             if (!active.arrayTask.isEmpty()) {
                 Iterator<Task> iterator = active.arrayTask.iterator();
                 while (iterator.hasNext()) {
-                    if (iterator.next().endTime == time) {
-                        active.addPower(iterator.next().workLoad);
+                    Task help = iterator.next();
+                    if (help.endTime == time) {
+                        active.subPower(help.workLoad);
+                        undoneTaskArray.remove(help);
+                        System.out.println("Czas: " + time + ", usuwamy: " + help);
+                        deletecounter++;
                         iterator.remove();
                     }
                 }
@@ -76,4 +105,32 @@ public class FirstAlgorithm {
         }
 
     }
+
+    public void endTask() {
+        while (!undoneTaskArray.isEmpty()) {
+            for (int i = 0; i < systems.procesorArray.length; i++) {
+                Processor active = systems.procesorArray[i];
+                if (!active.arrayTask.isEmpty()) {
+                    Iterator<Task> iterator = active.arrayTask.iterator();
+                    while (iterator.hasNext()) {
+                        Task help = iterator.next();
+                        if (help.endTime == time) {
+                            active.subPower(help.workLoad);
+                            undoneTaskArray.remove(help);
+                            System.out.println("Czas: " + time + ", usuwamy: " + help);
+                            iterator.remove();
+                            deletecounter++;
+                            System.out.println("Usuniec: " + deletecounter);
+                        }
+                    }
+                } else {
+                    continue;
+                }
+            }
+            time++;
+        }
+        time--;
+        System.out.println("Czas: " + time);
+    }
+
 }

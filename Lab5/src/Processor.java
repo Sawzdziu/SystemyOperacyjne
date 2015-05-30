@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Processor {
 
-    int power = 100;
+    int power = 0;
     ArrayList<Task> arrayTask = new ArrayList<Task>();
 
 

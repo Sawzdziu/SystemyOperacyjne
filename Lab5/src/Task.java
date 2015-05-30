@@ -15,8 +15,12 @@ public class Task {
 	Task() {
 		Random random = new Random();
 		this.comeTime = random.nextInt(250);
-		this.endTime = random.nextInt(250) + comeTime;
+		this.endTime = random.nextInt(250) + comeTime + 7;
 		this.workLoad = random.nextInt(80);
+	}
+
+	public void addTime(){
+		this.endTime++;
 	}
 
 	public String toString() {
