@@ -2,32 +2,59 @@ import java.util.ArrayList;
 
 public class Test {
 
-    static ArrayList<Task> arrayTask;
+    static ArrayList<Task> array;
 
-    private static ArrayList<Task> arrayCopy(ArrayList<Task> task) {
-        ArrayList<Task> wyn = new ArrayList<Task>();
-        for (Task v : task) {
-            wyn.add(v);
+    private static ArrayList<Task> copyArray(ArrayList<Task> app) {
+        ArrayList<Task> application = new ArrayList<Task>();
+        for (Task a : app) {
+            application.add(a);
         }
-        return wyn;
+        return application;
     }
 
-    public static void main(String[] args) throws CloneNotSupportedException {
+    public static void main(String[] args) {
 
-        Systems system = new Systems(40, 10, 4, 100);
-        arrayTask = system.createArrayTask();
+        Systems system = new Systems(40, 20, 4, 50);
         system.createProcess();
+        ArrayList<Task> firstArray = system.createArrayTask();
+        ArrayList<Task> secondArray = system.createArrayTask();
+        ArrayList<Task> thirdArray = system.createArrayTask();
 
-        FirstAlgorithm first = new FirstAlgorithm(system, arrayCopy(arrayTask));
+
+
+        System.out
+                .println("===============================================================");
+        System.out.println("\t\tPierwszy Algorytm");
+        System.out
+                .println("===============================================================");
+
+        FirstAlgorithm first = new FirstAlgorithm(system,copyArray(firstArray));
         first.run();
         System.out.println("Licba zapytan: " + first.askNumber);
         first.average();
 
-        System.out.println("Drugi algorytm");
+        System.out
+                .println("===============================================================");
+        System.out.println("\t\tDrugi Algorytm");
+        System.out
+                .println("===============================================================");
+        system.createProcess();
 
-        SecondAlgorithm second = new SecondAlgorithm(system, arrayCopy(arrayTask));
+        SecondAlgorithm second = new SecondAlgorithm(system, copyArray(secondArray));
         second.run();
         System.out.println("Licba zapytan: " + second.askNumber);
         second.average();
+
+        System.out
+                .println("===============================================================");
+        System.out.println("\t\tTrzeci Algorytm");
+        System.out
+                .println("===============================================================");
+
+        system.createProcess();
+        ThirdAlgorithm third = new ThirdAlgorithm(system, copyArray(thirdArray));
+        third.run();
+        System.out.println("Licba zapytan: " + third.askNumber);
+        third.average();
     }
 }

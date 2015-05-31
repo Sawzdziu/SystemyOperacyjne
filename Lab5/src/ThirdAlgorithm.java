@@ -4,56 +4,56 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 /**
- * Created by Glove on 2015-05-29.
+ * Created by Glove on 2015-05-31.
  */
-public class FirstAlgorithm {
-
-    int counter;
+public class ThirdAlgorithm {
     int askNumber;
     int time;
     int procesorNumber;
     Systems systems;
     Random random = new Random();
     Processor current;
+    Processor ask;
     Task active;
     TimeComparator comparator = new TimeComparator();
     PriorityQueue<Task> queue = new PriorityQueue<Task>(comparator);
     ArrayList<Task> task;
     ArrayList<Task> undoneTaskArray = new ArrayList<Task>();
 
-    public FirstAlgorithm(Systems systems, ArrayList<Task> array) {
+    public ThirdAlgorithm(Systems systems, ArrayList<Task> array) {
         this.systems = systems;
         this.procesorNumber = systems.procesorArray.length;
         this.task = new ArrayList<Task>(array);
     }
 
+
     public void run() {
         System.out.println(task.toString());
         int find = 0;
+        int take = 0;
+        ask = systems.procesorArray[find];
         while (!task.isEmpty() || !queue.isEmpty()) { // dodawanie do procesorow zadan
-            addToQueue();
             increaseEndTimeInQueue();
+            addToQueue();
             active = queue.poll();
             if (active != null) {
-                if (counter < systems.chanceTime) {
+                if (ask.getPower() < systems.minVerge) {
                     find = random.nextInt(procesorNumber);
                     current = systems.procesorArray[find];
-                    if ((current.getPower() < systems.verge) && (current.getPower() + active.workLoad) < 100) {
+                    if (current.getPower() > systems.verge) {
+                        take = random.nextInt(current.getPower());
+                        ask.addPower(take);
+                        ask.workLoad.add(take);
+                        current.subPower(take);
                         current.addPower(active.workLoad);
-                        current.arrayTask.add(active);
-                        undoneTaskArray.add(active);
-                        counter = 0;
                     } else {
                         queue.add(active);//odloz na kolejke i poczekaj
-                        counter++;
                     }
                     askNumber++;
                 } else {
                     if ((current.getPower() + active.workLoad) > 100) {
                         queue.add(active);
-                        counter = 0;
                     } else {
-                        counter = 0;
                         current.addPower(active.workLoad);
                         current.arrayTask.add(active);
                         undoneTaskArray.add(active);
@@ -143,10 +143,11 @@ public class FirstAlgorithm {
             for (Integer value : active.workLoad) {
                 summary += value;
             }
-            System.out.println("Procesor " + (i + 1) + " srednie obciazenie: " + summary / active.workLoad.size());
             allSummary += summary / active.workLoad.size();
+            System.out.println("Procesor " + (i + 1) + " srednie obciazenie: " + summary / active.workLoad.size());
         }
         System.out.println("Calkowite srednie obciazenie: " + allSummary / systems.procesorArray.length);
     }
 
 }
+

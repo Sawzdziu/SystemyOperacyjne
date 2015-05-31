@@ -15,7 +15,7 @@ public class Task {
 	Task() {
 		Random random = new Random();
 		this.comeTime = random.nextInt(250);
-		this.endTime = random.nextInt(250) + comeTime + 7;
+		this.endTime = random.nextInt(250) + comeTime;
 		this.workLoad = random.nextInt(100);
 	}
 

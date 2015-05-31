@@ -22,24 +22,24 @@ public class SecondAlgorithm {
     public SecondAlgorithm(Systems systems,  ArrayList<Task> array) {
         this.systems = systems;
         this.procesorNumber = systems.procesorArray.length;
-        this.task = array;
+        this.task = new ArrayList<Task>(array);
     }
 
 
 
     public void run() {
+        System.out.println(task.toString());
         int find = 0;
-        find = random.nextInt(procesorNumber);
         current = systems.procesorArray[find];
         while (!task.isEmpty() || !queue.isEmpty()) { // dodawanie do procesorow zadan
-            addToQueue();
             increaseEndTimeInQueue();
+            addToQueue();
             active = queue.poll();
             if (active != null) {
                 if (current.getPower() > systems.verge) {
                     find = random.nextInt(procesorNumber);
                     current = systems.procesorArray[find];
-                    if (current.getPower() < systems.verge) {
+                    if ((current.getPower() < systems.verge) && (current.getPower() + active.workLoad) < 100) {
                         current.addPower(active.workLoad);
                         current.arrayTask.add(active);
                         undoneTaskArray.add(active);
@@ -48,15 +48,21 @@ public class SecondAlgorithm {
                     }
                     askNumber++;
                 } else {
-                    current.addPower(active.workLoad);
-                    current.arrayTask.add(active);
-                    undoneTaskArray.add(active);
+                    if ((current.getPower() + active.workLoad) > 100) {
+                        queue.add(active);
+                    } else {
+                        current.addPower(active.workLoad);
+                        current.arrayTask.add(active);
+                        undoneTaskArray.add(active);
+                    }
+                    askNumber++;
                 }
             }
             check();
             time++;
         }
-
+        time--;
+        endTask();
     }
 
     public void addToQueue() {
@@ -126,6 +132,9 @@ public class SecondAlgorithm {
     public void average() {
         int allSummary = 0;
         for (int i = 0; i < systems.procesorArray.length; i++) {
+            if(systems.procesorArray[i].workLoad.isEmpty()){
+                continue;
+            }
             Processor active = systems.procesorArray[i];
             int summary = 0;
             for (Integer value : active.workLoad) {

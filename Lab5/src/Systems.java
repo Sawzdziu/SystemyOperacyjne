@@ -4,7 +4,6 @@ import java.util.ArrayList;
 public class Systems {
 
     Processor procesorArray[];
-    ArrayList<Task> taskArray;
     int verge;//prog - p
     int chanceTime;
     int minVerge;//min prog - r
@@ -29,9 +28,6 @@ public class Systems {
         for (int i = 0; i < numberOfTask; i++) {
             array.add(new Task());
         }
-        taskArray = array;
-        return array;
+        return array ;
     }
-
-
 }
