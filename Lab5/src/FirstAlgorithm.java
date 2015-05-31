@@ -12,6 +12,7 @@ public class FirstAlgorithm {
     int askNumber;
     int time;
     int procesorNumber;
+    int migration;
     Systems systems;
     Random random = new Random();
     Processor current;
@@ -28,7 +29,7 @@ public class FirstAlgorithm {
     }
 
     public void run() {
-        System.out.println(task.toString());
+        //System.out.println(task.toString());
         int find = 0;
         while (!task.isEmpty() || !queue.isEmpty()) { // dodawanie do procesorow zadan
             addToQueue();
@@ -43,6 +44,7 @@ public class FirstAlgorithm {
                         current.arrayTask.add(active);
                         undoneTaskArray.add(active);
                         counter = 0;
+                        migration++;
                     } else {
                         queue.add(active);//odloz na kolejke i poczekaj
                         counter++;
@@ -134,17 +136,21 @@ public class FirstAlgorithm {
 
     public void average() {
         int allSummary = 0;
+        int odchylenie = 0;
+        int summary = 0;
         for (int i = 0; i < systems.procesorArray.length; i++) {
             if (systems.procesorArray[i].workLoad.isEmpty()) {
                 continue;
             }
             Processor active = systems.procesorArray[i];
-            int summary = 0;
+            int liczba = 0;
+
             for (Integer value : active.workLoad) {
-                summary += value;
+                liczba += value;
             }
-            System.out.println("Procesor " + (i + 1) + " srednie obciazenie: " + summary / active.workLoad.size());
-            allSummary += summary / active.workLoad.size();
+            System.out.println("Procesor " + (i + 1) + " srednie obciazenie: " + liczba / active.workLoad.size());
+            allSummary += liczba / active.workLoad.size();
+
         }
         System.out.println("Calkowite srednie obciazenie: " + allSummary / systems.procesorArray.length);
     }

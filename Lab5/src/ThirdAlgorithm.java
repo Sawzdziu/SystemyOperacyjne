@@ -10,6 +10,7 @@ public class ThirdAlgorithm {
     int askNumber;
     int time;
     int procesorNumber;
+    int migration;
     Systems systems;
     Random random = new Random();
     Processor current;
@@ -28,7 +29,7 @@ public class ThirdAlgorithm {
 
 
     public void run() {
-        System.out.println(task.toString());
+       // System.out.println(task.toString());
         int find = 0;
         int take = 0;
         ask = systems.procesorArray[find];
@@ -40,14 +41,19 @@ public class ThirdAlgorithm {
                 if (ask.getPower() < systems.minVerge) {
                     find = random.nextInt(procesorNumber);
                     current = systems.procesorArray[find];
+                    migration++;
                     if (current.getPower() > systems.verge) {
                         take = random.nextInt(current.getPower());
                         ask.addPower(take);
-                        ask.workLoad.add(take);
                         current.subPower(take);
                         current.addPower(active.workLoad);
+                        current.arrayTask.add(active);
+                        ask.arrayTask.add(active);
                     } else {
-                        queue.add(active);//odloz na kolejke i poczekaj
+                        ask.addPower(active.workLoad);
+                        ask.workLoad.add(active.workLoad);
+                        ask.arrayTask.add(active);
+                        undoneTaskArray.add(active);
                     }
                     askNumber++;
                 } else {
@@ -57,6 +63,8 @@ public class ThirdAlgorithm {
                         current.addPower(active.workLoad);
                         current.arrayTask.add(active);
                         undoneTaskArray.add(active);
+                        ask = systems.procesorArray[random.nextInt(procesorNumber)];
+                        migration++;
                     }
                     askNumber++;
                 }

@@ -14,7 +14,7 @@ public class Test {
 
     public static void main(String[] args) {
 
-        Systems system = new Systems(40, 20, 4, 50);
+        Systems system = new Systems(40, 60, 4, 100);
         system.createProcess();
         ArrayList<Task> firstArray = system.createArrayTask();
         ArrayList<Task> secondArray = system.createArrayTask();
@@ -31,6 +31,7 @@ public class Test {
         FirstAlgorithm first = new FirstAlgorithm(system,copyArray(firstArray));
         first.run();
         System.out.println("Licba zapytan: " + first.askNumber);
+        System.out.println("Liczba migracji: " + first.migration);
         first.average();
 
         System.out
@@ -43,6 +44,7 @@ public class Test {
         SecondAlgorithm second = new SecondAlgorithm(system, copyArray(secondArray));
         second.run();
         System.out.println("Licba zapytan: " + second.askNumber);
+        System.out.println("Liczba migracji: " + second.migration);
         second.average();
 
         System.out
@@ -55,6 +57,7 @@ public class Test {
         ThirdAlgorithm third = new ThirdAlgorithm(system, copyArray(thirdArray));
         third.run();
         System.out.println("Licba zapytan: " + third.askNumber);
+        System.out.println("Liczba migracji: " + third.migration);
         third.average();
     }
 }

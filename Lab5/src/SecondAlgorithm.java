@@ -10,6 +10,7 @@ public class SecondAlgorithm {
     int askNumber;
     int time;
     int procesorNumber;
+    int migration;
     Systems systems;
     Random random = new Random();
     Processor current;
@@ -28,7 +29,7 @@ public class SecondAlgorithm {
 
 
     public void run() {
-        System.out.println(task.toString());
+        //System.out.println(task.toString());
         int find = 0;
         current = systems.procesorArray[find];
         while (!task.isEmpty() || !queue.isEmpty()) { // dodawanie do procesorow zadan
@@ -43,6 +44,7 @@ public class SecondAlgorithm {
                         current.addPower(active.workLoad);
                         current.arrayTask.add(active);
                         undoneTaskArray.add(active);
+                        migration++;
                     } else {
                         queue.add(active);//odloz na kolejke i poczekaj
                     }
